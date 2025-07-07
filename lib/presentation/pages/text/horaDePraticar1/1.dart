@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: Text("Olá, espero que esteja bem!"),
+       Text("Olá, espero que esteja bem!"),
         child: Container(
           
           width: 350,
