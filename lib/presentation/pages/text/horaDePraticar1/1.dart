@@ -17,15 +17,23 @@ class HomePage extends StatelessWidget {
         style: TextStyles.appBarTitle,
         ),
       ),
+
       body: Center(
         child: Container(
-          
+          child: Text("Olá Mundo",
+            style: TextStyle(
+              fontSize: 32,
+              color: Colors.white
+              ),
+            ),
           width: 350,
           height: 350,
           margin: EdgeInsets.all(16),
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.blue,
+
+
             
 
             borderRadius: BorderRadius.circular(30),
