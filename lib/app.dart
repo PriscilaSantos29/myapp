@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'presentation/pages/stack/home_page3.dart';
-import 'presentation/pages/text/horaDePraticar1/1.dart';
+import 'presentation/pages/text/horaDePraticar1/home_page3.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
