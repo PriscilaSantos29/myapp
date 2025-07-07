@@ -18,7 +18,6 @@ class HomePage extends StatelessWidget {
         ),
       ),
       body: Center(
-       Text("Olá, espero que esteja bem!"),
         child: Container(
           
           width: 350,
@@ -27,6 +26,7 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.blue,
+            
 
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
