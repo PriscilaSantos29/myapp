@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/core/theme/colors.dart';
-import 'package:myapp/core/theme/text_styles.dart';
 
 class Atividade1 extends StatelessWidget {
   const Atividade1({super.key});
