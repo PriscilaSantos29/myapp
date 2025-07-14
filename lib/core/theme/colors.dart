@@ -10,4 +10,5 @@ class AppColors{
   static Color colorStatusBar = Colors.blue.shade300; // Cor da StatusBar
   static const Color backgroundColorScaffold =  Color.fromARGB(255, 214, 228, 241);
   static const Color backgroundColorAppBar =  Colors.blue;
+  static const Color backgroundFloatingActionButton =  Colors.amber;
 }
