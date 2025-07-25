@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 // import 'presentation/pages/stack/home_page3.dart';
 //import 'presentation/pages/text/horaDePraticar1/Atividade1.dart';
-// import 'presentation/pages/text/horaDePraticar1/Atividade2.dart';
-import 'presentation/pages/botoes/elevatedbutton/home_page2.dart';
+ import 'presentation/pages/text/horaDePraticar2/home_page3.dart';
+//import 'presentation/pages/botoes/elevatedbutton/home_page2.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
