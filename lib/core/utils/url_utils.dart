@@ -1,12 +1,11 @@
+import 'package:url_launcher/url_launcher.dart';
 
-
-openUrl(String url){
+Future<void> openUrl(String url) async {
   final Uri uri = Uri.parse(url);
-  
-  
-  if(){
 
-  }else{
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri);
+  } else {
     print('Não foi possível abrir a URL: $url');
   }
 }
