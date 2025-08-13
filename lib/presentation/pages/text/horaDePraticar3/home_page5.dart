@@ -1,67 +1,48 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
+
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
-
-  final List<Widget> _pages = const [
-  Center(
-  child: Text.rich(
-    TextSpan(
-      style: TextStyle(fontSize: 18, color: Colors.black),
-      children: [
-        TextSpan(text: 'Olá, '),
-        TextSpan(
-          text: 'Mundo!',
-          style: TextStyle(color: Colors.red),
-        ),
-      ],
-    ),
-  ),
-),
-    Center(child: Text('Você está na Tela 2')),
-    Center(child: Text('Você está na Tela 3')),
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MEU APP',
-        style: TextStyle(
-            color: Colors.white, // <- força o texto branco
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: const Text("MEU APP"),
         backgroundColor: Colors.blue,
+        centerTitle: true,
       ),
-backgroundColor: Color.fromARGB(255, 214, 228, 241),
-      body: _pages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '',
+      body: Stack(
+        children: [
+          // Imagem de fundo
+          Image.network(
+            'https://i.imgur.com/fzgwYzq.png',
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: '',
+
+
+          // Conteúdo sobre a imagem
+          Positioned(
+            top: 16, // Espaçamento exato abaixo da AppBar
+            left: 0,
+            right: 0,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  // ação do botão
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue[200],
+                  foregroundColor: Colors.black,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                ),
+                child: const Text("Clique para Prosseguir"),
+              ),
+            ),
           ),
         ],
       ),

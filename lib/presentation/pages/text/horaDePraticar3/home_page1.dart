@@ -1,35 +1,54 @@
 import 'package:flutter/material.dart';
 
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MEU APP',
-        style: TextStyle(
-            color: Colors.white, // <- força o texto branco
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: Colors.blue,
-        elevation: 4,
+        title: const Text("Menu Drawer"),
       ),
-      backgroundColor: const Color.fromARGB(255, 214, 228, 241),
-      body: Container(
-        alignment: Alignment.center,
-        width: 200,
-        height: 200,
-        margin: const EdgeInsets.all(100),
-        decoration: BoxDecoration(
-          color: Colors.purple,
-          border: Border.all(color: Colors.green, width: 2),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.blue,
+              ),
+              accountName: const Text(
+                "Fábio Junior Alves",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              accountEmail: const Text("fganul@gmail.com"),
+              currentAccountPicture: const CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Text(
+                  "F.JR.A.",
+                  style: TextStyle(fontSize: 18, color: Colors.black),
+                ),
+              ),
+            ),
+            const ListTile(
+              leading: Icon(Icons.book),
+              title: Text("Curso de Flutter"),
+            ),
+            const ListTile(
+              leading: Icon(Icons.book),
+              title: Text("Curso de PHP"),
+            ),
+            const ListTile(
+              leading: Icon(Icons.book),
+              title: Text("Curso de JAVA"),
+            ),
+          ],
         ),
-        child: const Text(
-          'Olá',
-          style: TextStyle(color: Colors.black),
-        ),
+      ),
+      body: const Center(
+        child: Text("Conteúdo principal"),
       ),
     );
   }
