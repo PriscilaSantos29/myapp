@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'presentation/pages/url/home_page1.dart';
-//import 'presentation/pages/navegacao/multiplasRotas/primeirapag.dart';
-import 'presentation/pages/navegacao/exercicio5/paginaInicial.dart';
-import 'presentation/pages/navegacao/exercicio5/minhaConta.dart';
-import 'presentation/pages/navegacao/exercicio5/contato.dart';
+import 'presentation/pages/wrap/home_page1.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -12,12 +8,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const Paginainicial(),
-        '/minhaConta': (context) => const MinhaConta(),        
-        '/contato': (context) => const Contato() ,
-      },
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
+      home: HomePage(),
     );
   }
 }
