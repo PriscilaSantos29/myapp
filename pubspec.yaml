@@ -70,7 +70,15 @@ flutter:
     - assets/img/rubi.png
     - assets/img/hipopotamo.jpg
     - assets/img/girafa.jpg
+    - assets/img/caule.jpg
+    - assets/img/flores.jpg
+    - assets/img/folhas.jpg
+    - assets/img/frutos.jpg
+    - assets/img/raiz.jpg
     - assets/img/fundo.jpg
+    - assets/img/sementes.png
+    - assets/img/briofitas.png
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
