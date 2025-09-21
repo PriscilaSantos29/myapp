@@ -13,8 +13,7 @@ class _BriofitasPageState extends State<BriofitasPage> {
   final String textoOqueSao = '''
 As briófitas são plantas não vasculares — não têm xilema nem floema — geralmente de porte pequeno, que vivem em ambientes úmidos ou sombreados.  
 Incluem os musgos, hepáticas e antóceros, reproduzindo-se por esporos, sem formar sementes, frutos ou flores.  
-Sua fase dominante é o gametófito, enquanto o esporófito permanece nutrido por ele.  
-:contentReference[oaicite:1]{index=1}
+Sua fase dominante é o gametófito, enquanto o esporófito permanece nutrido por ele. 
 ''';
 
   @override

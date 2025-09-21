@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'presentation/pages/text/horaDePraticar4/home_page5.dart';
-import 'presentation/pages/text/horaDePraticar6/home_page1.dart';
-
+import 'presentation/pages/mundoVerde/welcome_page.dart';
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -13,7 +11,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: WelcomePage(),
     );
   }
 }

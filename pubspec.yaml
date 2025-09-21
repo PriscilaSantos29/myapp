@@ -78,6 +78,24 @@ flutter:
     - assets/img/fundo.jpg
     - assets/img/sementes.png
     - assets/img/briofitas.png
+    - assets/img/atualidades.jpg
+    - assets/img/cadeias.png
+    - assets/img/ciclos.png
+    - assets/img/ecologia_intro.jpg
+    - assets/img/estresse.jpg
+    - assets/img/fatores.png
+    - assets/img/fisiologia_intro.jpg
+    - assets/img/fotoperiodo.png
+    - assets/img/fotossintese.png
+    - assets/img/habitat.jpg
+    - assets/img/hormonios.png
+    - assets/img/movimentos.jpg
+    - assets/img/niveis.png
+    - assets/img/ramos.png
+    - assets/img/relacoes.png
+    - assets/img/respiracao.jpg
+    - assets/img/seiva.png
+    - assets/img/transpiracao.jpg
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
