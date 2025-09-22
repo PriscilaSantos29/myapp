@@ -23,7 +23,7 @@ class IntermediarioScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // Card Taxonomia
+              // Card Taxonomia com botões individuais
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -40,70 +40,37 @@ class IntermediarioScreen extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10),
-                      _buildButton(context, "Briófitas"),
-                      _buildButton(context, "Pteridófitas"),
-                      _buildButton(context, "Gimnospermas"),
-                      _buildButton(context, "Angiospermas"),
-                    ],
-                  ),
-                ),
-              ),
-
-              // Card Fisiologia
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                margin: const EdgeInsets.all(12),
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      const Text(
-                        "Processos e Funções\n(Fisiologia)",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const FisiologiaScreen(),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          minimumSize: const Size(220, 45),
-                        ),
-                        child: const Text("Acessar Conteúdo"),
-                      ),
+                      _buildTaxonomyButton(
+                          context, "Briófitas", const BriofitasPage()),
+                      _buildTaxonomyButton(
+                          context, "Pteridófitas", const PteridofitasPage()),
+                      _buildTaxonomyButton(
+                          context, "Gimnospermas", const GimnospermasPage()),
+                      _buildTaxonomyButton(
+                          context, "Angiospermas", const AngiospermasPage()),
                     ],
                   ),
                 ),
               ),
 
               const SizedBox(height: 20),
+              // Botão Voltar
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFA4E36F),
+                  backgroundColor: Colors.redAccent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
                   minimumSize: const Size(200, 45),
                 ),
                 child: const Text(
-                  "Mudar de nível",
+                  "Voltar",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -111,27 +78,16 @@ class IntermediarioScreen extends StatelessWidget {
     );
   }
 
-  /// Botões da seção de taxonomia
-  Widget _buildButton(BuildContext context, String text) {
+  Widget _buildTaxonomyButton(
+      BuildContext context, String text, Widget destination) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 6),
       child: ElevatedButton(
         onPressed: () {
-          if (text == "Briófitas") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const BriofitasPage(),
-              ),
-            );
-          } else {
-            // Aqui você pode adicionar lógica para os outros botões no futuro
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Tela '$text' ainda não implementada."),
-              ),
-            );
-          }
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => destination),
+          );
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.green,
@@ -146,74 +102,143 @@ class IntermediarioScreen extends StatelessWidget {
   }
 }
 
-/// Tela de Fisiologia (já existente)
-class FisiologiaScreen extends StatelessWidget {
-  const FisiologiaScreen({super.key});
+class PteridofitasPage extends StatelessWidget {
+  const PteridofitasPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final List<Map<String, String>> conteudos = [
       {
-        "titulo": "Fotossíntese",
+        "titulo": "Características Gerais",
         "texto":
-            "Transforma energia luminosa em energia química (glicose), liberando oxigênio."
+            "São plantas vasculares (possuem xilema e floema), porém não produzem sementes. Apresentam raiz, caule e folhas bem definidos."
       },
       {
-        "titulo": "Respiração Celular",
-        "texto":
-            "Plantas utilizam glicose para gerar energia (ATP), consumindo oxigênio e liberando gás carbônico."
+        "titulo": "Exemplos",
+        "texto": "Samambaias, avencas e cavalinhas."
       },
       {
-        "titulo": "Transpiração",
+        "titulo": "Reprodução",
         "texto":
-            "Perda de água pelas folhas, principalmente pelos estômatos. Essencial para regulação térmica."
+            "Dependem de água para a fecundação, pois o gameta masculino nada até o feminino. Apresentam alternância de gerações (gametófito e esporófito)."
       },
       {
-        "titulo": "Seiva Bruta e Elaborada",
+        "titulo": "Importância Ecológica",
         "texto":
-            "- Seiva Bruta: água e sais minerais transportados pelo xilema.\n- Seiva Elaborada: açúcares transportados pelo floema."
-      },
-      {
-        "titulo": "Movimentos Vegetais",
-        "texto":
-            "Respostas das plantas a estímulos, como fototropismo (luz), geotropismo (gravidade) e nastias."
+            "Ajudam na formação do solo e servem de abrigo para pequenos animais. Contribuem para a manutenção da umidade nos ecossistemas."
       },
     ];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Fisiologia Vegetal"),
-        backgroundColor: Colors.green,
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(12),
-        itemCount: conteudos.length,
-        itemBuilder: (context, index) {
-          final item = conteudos[index];
-          return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            elevation: 3,
-            child: ExpansionTile(
-              title: Text(
-                item["titulo"]!,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(item["texto"]!),
-                )
-              ],
-            ),
-          );
-        },
-      ),
-    );
+    return _buildScaffold("Pteridófitas", conteudos);
   }
 }
+
+/// ------------------
+/// GIMNOSPERMAS
+/// ------------------
+class GimnospermasPage extends StatelessWidget {
+  const GimnospermasPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, String>> conteudos = [
+      {
+        "titulo": "Características Gerais",
+        "texto":
+            "São plantas vasculares com sementes, mas sem frutos (sementes nuas). Possuem raiz, caule, folhas e vasos condutores."
+      },
+      {
+        "titulo": "Exemplos",
+        "texto": "Pinheiros, araucárias, ciprestes e sequoias."
+      },
+      {
+        "titulo": "Reprodução",
+        "texto":
+            "Fazem reprodução sexuada por sementes expostas em estruturas chamadas estróbilos ou cones."
+      },
+      {
+        "titulo": "Importância Ecológica e Econômica",
+        "texto":
+            "Produzem madeira, resina e papel. Além disso, são fundamentais em biomas frios e temperados."
+      },
+    ];
+
+    return _buildScaffold("Gimnospermas", conteudos);
+  }
+}
+
+/// ------------------
+/// ANGIOSPERMAS
+/// ------------------
+class AngiospermasPage extends StatelessWidget {
+  const AngiospermasPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, String>> conteudos = [
+      {
+        "titulo": "Características Gerais",
+        "texto":
+            "São plantas vasculares que produzem flores e frutos com sementes. É o grupo mais diverso do reino Plantae."
+      },
+      {
+        "titulo": "Exemplos",
+        "texto": "Mangueira, roseira, milho, feijão, orquídea, grama, etc."
+      },
+      {
+        "titulo": "Reprodução",
+        "texto":
+            "A reprodução ocorre por flores, onde acontece a polinização e fecundação. As sementes ficam protegidas dentro dos frutos."
+      },
+      {
+        "titulo": "Importância Ecológica e Econômica",
+        "texto":
+            "Fornecem a maior parte dos alimentos, madeiras, fibras têxteis, medicamentos, óleos e ornamentação."
+      },
+    ];
+
+    return _buildScaffold("Angiospermas", conteudos);
+  }
+}
+
+/// ------------------
+/// WIDGET BASE (estilo igual ao FisiologiaScreen)
+/// ------------------
+Widget _buildScaffold(String titulo, List<Map<String, String>> conteudos) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(titulo),
+      backgroundColor: Colors.green,
+    ),
+    body: ListView.builder(
+      padding: const EdgeInsets.all(12),
+      itemCount: conteudos.length,
+      itemBuilder: (context, index) {
+        final item = conteudos[index];
+        return Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          elevation: 3,
+          child: ExpansionTile(
+            title: Text(
+              item["titulo"]!,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.green,
+              ),
+            ),
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(item["texto"]!),
+              )
+            ],
+          ),
+        );
+      },
+    ),
+  );
+}
+

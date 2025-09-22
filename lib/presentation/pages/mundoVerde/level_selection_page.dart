@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/presentation/pages/mundoVerde/nivel_intermediario.dart';
 import 'package:myapp/presentation/pages/mundoVerde/tela_iniciante.dart';
+import 'package:myapp/presentation/pages/mundoVerde/tela_avancado.dart';
 
 class LevelSelectionPage extends StatelessWidget {
   const LevelSelectionPage({super.key});
@@ -140,28 +141,10 @@ class LevelSelectionPage extends StatelessWidget {
                           Color(0xFF228B22), // Verde escuro
                           Icons.park,
                           () {
-                            // Ação para avançado
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Nível Avançado selecionado!'),
-                              ),
-                            );
-                          },
-                        ),
-
-                        SizedBox(height: 15),
-
-                        _buildLevelButton(
-                          context,
-                          'Próxima',
-                          '',
-                          Color(0xFFADFF2F), // Verde amarelado
-                          Icons.arrow_forward,
-                          () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const TelaIniciante(),
+                                builder: (context) => const TelaAvancado(),
                               ),
                             );
                           },

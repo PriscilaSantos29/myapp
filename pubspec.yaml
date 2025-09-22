@@ -96,6 +96,8 @@ flutter:
     - assets/img/respiracao.jpg
     - assets/img/seiva.png
     - assets/img/transpiracao.jpg
+    - assets/img/darwin.jpg
+    - assets/img/lamark.jpg
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
