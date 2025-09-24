@@ -98,6 +98,7 @@ flutter:
     - assets/img/transpiracao.jpg
     - assets/img/darwin.jpg
     - assets/img/lamark.jpg
+    - assets/img/husky.jpg
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
