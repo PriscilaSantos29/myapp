@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'presentation/pages/text/horaDePraticarII/home_page8.dart';
+import 'presentation/pages/text/exercicioForms/home_page2.dart';
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: HomePage8(),
+      home:  ConversorPage(),
     );
   }
 }
