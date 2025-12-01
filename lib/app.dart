@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'presentation/pages/jogo_forca/home_page1.dart';
+import 'presentation/pages/aplicativo/home_page.dart';
 
 
 class MyApp extends StatelessWidget {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home:  ForcaHome(),
+      home:  LoginPage(),
     );
   }
 }

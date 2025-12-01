@@ -1,19 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pesquisa e Quiz',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      debugShowCheckedModeBanner: false,
-      home: LoginPage(),
-    );
-  }
-}
-
 // ---------------- LOGIN ----------------
 
 class LoginPage extends StatefulWidget {
@@ -37,9 +23,9 @@ class _LoginPageState extends State<LoginPage> {
           MaterialPageRoute(builder: (_) => WelcomePage()),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Usuário ou senha incorretos!')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Usuário ou senha incorretos!')));
       }
     }
   }
@@ -53,8 +39,9 @@ class _LoginPageState extends State<LoginPage> {
           padding: EdgeInsets.all(24),
           child: Card(
             elevation: 8,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Padding(
               padding: EdgeInsets.all(24),
               child: Form(
@@ -64,9 +51,13 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Icon(Icons.lock_outline, color: Colors.blue, size: 70),
                     SizedBox(height: 16),
-                    Text("Login",
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
+                    Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     SizedBox(height: 24),
                     TextFormField(
                       controller: _userController,
@@ -74,8 +65,11 @@ class _LoginPageState extends State<LoginPage> {
                         labelText: "Usuário",
                         border: OutlineInputBorder(),
                       ),
-                      validator: (v) =>
-                          v == null || v.isEmpty ? 'Digite o usuário' : null,
+                      validator:
+                          (v) =>
+                              v == null || v.isEmpty
+                                  ? 'Digite o usuário'
+                                  : null,
                     ),
                     SizedBox(height: 16),
                     TextFormField(
@@ -85,8 +79,9 @@ class _LoginPageState extends State<LoginPage> {
                         labelText: "Senha",
                         border: OutlineInputBorder(),
                       ),
-                      validator: (v) =>
-                          v == null || v.isEmpty ? 'Digite a senha' : null,
+                      validator:
+                          (v) =>
+                              v == null || v.isEmpty ? 'Digite a senha' : null,
                     ),
                     SizedBox(height: 24),
                     ElevatedButton.icon(
@@ -128,8 +123,10 @@ class WelcomePage extends StatelessWidget {
                 children: [
                   Icon(Icons.account_circle, color: Colors.white, size: 64),
                   SizedBox(height: 8),
-                  Text('Olá, admin!',
-                      style: TextStyle(color: Colors.white, fontSize: 18)),
+                  Text(
+                    'Olá, admin!',
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
                 ],
               ),
             ),
@@ -154,10 +151,7 @@ class WelcomePage extends StatelessWidget {
           ],
         ),
       ),
-      appBar: AppBar(
-        title: Text('Bem-vindo!'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text('Bem-vindo!'), centerTitle: true),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
@@ -183,7 +177,6 @@ class WelcomePage extends StatelessWidget {
               ),
               SizedBox(height: 40),
 
-              // Botão: Pesquisa
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
@@ -194,8 +187,10 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ),
                   icon: Icon(Icons.assignment_outlined),
-                  label: Text('Responder Pesquisa',
-                      style: TextStyle(fontSize: 18)),
+                  label: Text(
+                    'Responder Pesquisa',
+                    style: TextStyle(fontSize: 18),
+                  ),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -206,7 +201,6 @@ class WelcomePage extends StatelessWidget {
               ),
               SizedBox(height: 16),
 
-              // Botão: Ir direto para o Quiz
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
@@ -217,11 +211,14 @@ class WelcomePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  icon:
-                      Icon(Icons.play_arrow_rounded, color: Colors.blueAccent),
-                  label: Text('Ir direto para o Quiz',
-                      style:
-                          TextStyle(fontSize: 18, color: Colors.blueAccent)),
+                  icon: Icon(
+                    Icons.play_arrow_rounded,
+                    color: Colors.blueAccent,
+                  ),
+                  label: Text(
+                    'Ir direto para o Quiz',
+                    style: TextStyle(fontSize: 18, color: Colors.blueAccent),
+                  ),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -273,10 +270,11 @@ class _SurveyFormPageState extends State<SurveyFormPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => QuizPage(
-            userGender: gender,
-            userAge: int.tryParse(ageController.text),
-          ),
+          builder:
+              (_) => QuizPage(
+                userGender: gender,
+                userAge: int.tryParse(ageController.text),
+              ),
         ),
       );
     }
@@ -332,18 +330,20 @@ class _SurveyFormPageState extends State<SurveyFormPage> {
               SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(labelText: '3. Escolaridade'),
-                items: [
-                  'Ensino Fundamental',
-                  'Ensino Médio',
-                  'Ensino Superior',
-                  'Pós-graduação'
-                ]
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                    .toList(),
+                items:
+                    [
+                          'Ensino Fundamental',
+                          'Ensino Médio',
+                          'Ensino Superior',
+                          'Pós-graduação',
+                        ]
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                        .toList(),
                 value: education,
                 onChanged: (v) => setState(() => education = v),
-                validator: (v) =>
-                    (v == null || v.isEmpty) ? 'Escolha uma opção' : null,
+                validator:
+                    (v) =>
+                        (v == null || v.isEmpty) ? 'Escolha uma opção' : null,
               ),
               SizedBox(height: 16),
               Text(
@@ -359,13 +359,17 @@ class _SurveyFormPageState extends State<SurveyFormPage> {
                 onChanged: (val) => setState(() => satisfaction = val),
               ),
               SizedBox(height: 12),
-              Text("5. Hábitos (marque os que se aplicam)",
-                  style: TextStyle(fontSize: 16)),
-              ...habits.keys.map((key) => CheckboxListTile(
-                    title: Text(key),
-                    value: habits[key],
-                    onChanged: (val) => setState(() => habits[key] = val!),
-                  )),
+              Text(
+                "5. Hábitos (marque os que se aplicam)",
+                style: TextStyle(fontSize: 16),
+              ),
+              ...habits.keys.map(
+                (key) => CheckboxListTile(
+                  title: Text(key),
+                  value: habits[key],
+                  onChanged: (val) => setState(() => habits[key] = val!),
+                ),
+              ),
               SizedBox(height: 12),
               SwitchListTile(
                 title: Text("6. Você recomendaria o app?"),
@@ -424,42 +428,86 @@ class _QuizPageState extends State<QuizPage> {
   @override
   void initState() {
     super.initState();
+
     questions = [
       QuizQuestion(
-        question: '1. Tempo médio de entrega padrão?',
+        question: '1. Qual o tempo médio de entrega padrão?',
         options: ['30 minutos', '45 minutos', '1 hora'],
         correctIndex: 0,
       ),
       QuizQuestion(
-        question: '2. Método de pagamento instantâneo brasileiro?',
+        question: '2. Qual é o método de pagamento instantâneo brasileiro?',
         options: ['Pix', 'Boleto', 'Cheque'],
         correctIndex: 0,
       ),
       QuizQuestion(
-        question: '3. Objetivo do programa "FoodLovers"?',
+        question: '3. Para que serve o programa "FoodLovers"?',
         options: [
           'Recompensar clientes',
           'Aumentar preços',
-          'Fechar restaurantes'
+          'Fechar restaurantes',
         ],
+        correctIndex: 0,
+      ),
+      QuizQuestion(
+        question: '4. Qual é a taxa mínima de entrega?',
+        options: ['R\$ 1,00', 'R\$ 2,50', 'R\$ 5,00'],
+        correctIndex: 1,
+      ),
+      QuizQuestion(
+        question: '5. Qual item é considerado bebida?',
+        options: ['Refrigerante', 'Sanduíche', 'Batata frita'],
+        correctIndex: 0,
+      ),
+      QuizQuestion(
+        question: '6. Qual horário costuma ter maior movimento?',
+        options: ['Madrugada', 'Hora do almoço', 'Fim da manhã'],
+        correctIndex: 1,
+      ),
+      QuizQuestion(
+        question: '7. Qual tipo de restaurante entrega mais rápido?',
+        options: ['Fast-food', 'Churrascaria', 'Restaurante japonês'],
+        correctIndex: 0,
+      ),
+      QuizQuestion(
+        question: '8. Qual desses é um método de entrega?',
+        options: ['Retirada', 'Estacionamento', 'Mesa VIP'],
+        correctIndex: 0,
+      ),
+      QuizQuestion(
+        question: '9. O que significa “frete grátis”?',
+        options: [
+          'Taxa de entrega não é cobrada',
+          'Pedido é mais rápido',
+          'Comida é de graça',
+        ],
+        correctIndex: 0,
+      ),
+      QuizQuestion(
+        question: '10. Qual item é considerado sobremesa?',
+        options: ['Sorvete', 'Arroz', 'Feijão'],
         correctIndex: 0,
       ),
     ];
   }
 
   void _submitQuiz() {
+    // Verifica se todas foram respondidas
     final unanswered = questions.indexWhere((q) => q.selectedIndex == null);
     if (unanswered != -1) {
       showDialog(
         context: context,
-        builder: (_) => AlertDialog(
-          title: Text('Por favor'),
-          content: Text('Responda todas as perguntas antes de enviar.'),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pop(context), child: Text('OK')),
-          ],
-        ),
+        builder:
+            (_) => AlertDialog(
+              title: Text('Por favor'),
+              content: Text('Responda todas as perguntas antes de enviar.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('OK'),
+                ),
+              ],
+            ),
       );
       return;
     }
@@ -470,8 +518,12 @@ class _QuizPageState extends State<QuizPage> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => QuizResultPage(
-            score: score, total: questions.length, questions: questions),
+        builder:
+            (_) => QuizResultPage(
+              score: score,
+              total: questions.length,
+              questions: questions,
+            ),
       ),
     );
   }
@@ -484,8 +536,10 @@ class _QuizPageState extends State<QuizPage> {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            Text('Responda as perguntas abaixo:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(
+              'Responda as perguntas abaixo:',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 12),
             ...questions.asMap().entries.map((entry) {
               final q = entry.value;
@@ -496,9 +550,13 @@ class _QuizPageState extends State<QuizPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(q.question,
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w600)),
+                      Text(
+                        q.question,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                       ...q.options.asMap().entries.map((opt) {
                         final optIdx = opt.key;
                         final optText = opt.value;
@@ -506,8 +564,8 @@ class _QuizPageState extends State<QuizPage> {
                           title: Text(optText),
                           value: optIdx,
                           groupValue: q.selectedIndex,
-                          onChanged: (val) =>
-                              setState(() => q.selectedIndex = val),
+                          onChanged:
+                              (val) => setState(() => q.selectedIndex = val),
                         );
                       }).toList(),
                     ],
@@ -516,10 +574,7 @@ class _QuizPageState extends State<QuizPage> {
               );
             }),
             SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _submitQuiz,
-              child: Text('Enviar Quiz'),
-            ),
+            ElevatedButton(onPressed: _submitQuiz, child: Text('Enviar Quiz')),
           ],
         ),
       ),
@@ -534,8 +589,11 @@ class QuizResultPage extends StatelessWidget {
   final int total;
   final List<QuizQuestion> questions;
 
-  QuizResultPage(
-      {required this.score, required this.total, required this.questions});
+  QuizResultPage({
+    required this.score,
+    required this.total,
+    required this.questions,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -545,8 +603,10 @@ class QuizResultPage extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            Text('Você acertou $score de $total perguntas!',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(
+              'Você acertou $score de $total perguntas!',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 12),
             Expanded(
               child: ListView.builder(
@@ -554,14 +614,16 @@ class QuizResultPage extends StatelessWidget {
                 itemBuilder: (_, i) {
                   final q = questions[i];
                   final correct = q.options[q.correctIndex];
-                  final selected = q.selectedIndex != null
-                      ? q.options[q.selectedIndex!]
-                      : '—';
+                  final selected =
+                      q.selectedIndex != null
+                          ? q.options[q.selectedIndex!]
+                          : '—';
                   final correctBool = q.selectedIndex == q.correctIndex;
                   return ListTile(
                     title: Text(q.question),
-                    subtitle:
-                        Text('Sua resposta: $selected\nCorreta: $correct'),
+                    subtitle: Text(
+                      'Sua resposta: $selected\nCorreta: $correct',
+                    ),
                     isThreeLine: true,
                     trailing: Icon(
                       correctBool ? Icons.check_circle : Icons.cancel,
@@ -572,7 +634,8 @@ class QuizResultPage extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
+              onPressed:
+                  () => Navigator.popUntil(context, (route) => route.isFirst),
               child: Text('Voltar ao início'),
             ),
           ],

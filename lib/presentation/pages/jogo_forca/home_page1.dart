@@ -1,33 +1,32 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+class TelaForca extends StatefulWidget {
+  const TelaForca({super.key});
 
-class ForcaHome extends StatefulWidget {
   @override
-  _ForcaHomeState createState() => _ForcaHomeState();
+  State<TelaForca> createState() => _TelaForcaState();
 }
 
-class _ForcaHomeState extends State<ForcaHome> {
-  // Palavra secreta - pode ser expandida ou carregada de um arquivo/serviço
+class _TelaForcaState extends State<TelaForca> {
   final List<String> _palavras = [
-    'FLUTTER',
-    'DART',
-    'PROGRAMACAO',
-    'WIDGET',
-    'ESTADO',
-    'PROJETO',
-    'MATERIAL',
-    'ESTILOS',
-    'APLICACAO',
-    'FORCA',
+    "FLUTTER",
+    "DART",
+    "WIDGET",
+    "CODIGO",
+    "MOBILE",
+    "NAVEGAR",
+    "TELA",
   ];
 
-  String _palavra = '';
-  Set<String> _letrasEscolhidas = {};
+  late String _palavra;
+  late List<String> _palavraOculta;
+  List<String> _letrasUsadas = [];
   int _erros = 0;
-  final int _maxErros = 6; // número de partes do boneco
+  final int _maxErros = 6;
   bool _gameOver = false;
-  bool _vitoria = false;
+
+  final List<String> _alfabeto = List.generate(26, (i) => String.fromCharCode(65 + i));
 
   @override
   void initState() {
@@ -36,194 +35,206 @@ class _ForcaHomeState extends State<ForcaHome> {
   }
 
   void _novaPartida() {
-    final rnd = Random();
     setState(() {
-      _palavra = _palavras[rnd.nextInt(_palavras.length)];
-      _letrasEscolhidas.clear();
+      _palavra = _palavras[Random().nextInt(_palavras.length)];
+      _palavraOculta = List.generate(_palavra.length, (_) => "_");
+      _letrasUsadas = [];
       _erros = 0;
       _gameOver = false;
-      _vitoria = false;
     });
   }
 
   void _escolherLetra(String letra) {
-    if (_gameOver) return;
-    letra = letra.toUpperCase();
+    if (_gameOver || _letrasUsadas.contains(letra)) return;
 
     setState(() {
-      _letrasEscolhidas.add(letra);
-      if (!_palavra.contains(letra)) {
+      _letrasUsadas.add(letra);
+
+      if (_palavra.contains(letra)) {
+        for (int i = 0; i < _palavra.length; i++) {
+          if (_palavra[i] == letra) {
+            _palavraOculta[i] = letra;
+          }
+        }
+
+        if (!_palavraOculta.contains("_")) {
+          _gameOver = true;
+        }
+      } else {
         _erros++;
         if (_erros >= _maxErros) {
           _gameOver = true;
-          _vitoria = false;
-        }
-      } else {
-        // conferir se todas as letras foram adivinhadas
-        final ganhou =
-            _palavra
-                .split('')
-                .where((c) => c != ' ')
-                .toSet()
-                .difference(_letrasEscolhidas)
-                .isEmpty;
-        if (ganhou) {
-          _gameOver = true;
-          _vitoria = true;
         }
       }
     });
   }
 
-  Widget _buildPalavra() {
-    List<Widget> letras = [];
-    for (var ch in _palavra.split('')) {
-      if (ch == ' ') {
-        letras.add(SizedBox(width: 12));
-      } else {
-        final visivel = _letrasEscolhidas.contains(ch);
-        letras.add(
-          Container(
-            width: 28,
-            height: 40,
-            alignment: Alignment.center,
-            margin: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(width: 2.5, color: Colors.black87),
-              ),
+  // =============================
+  // DESENHO DA FORCA
+  // =============================
+  Widget _desenhoForca() {
+    return CustomPaint(
+      size: const Size(200, 250),
+      painter: ForcaPainter(_erros),
+    );
+  }
+
+  // =============================
+  // TECLADO DE LETRAS RESPONSIVO
+  // =============================
+  Widget _buildTeclado() {
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 8,
+      runSpacing: 8,
+      children: _alfabeto.map((letra) {
+        final usado = _letrasUsadas.contains(letra);
+
+        return SizedBox(
+          width: 55,
+          height: 55,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor:
+                  usado ? Colors.grey.shade300 : Colors.white,
+              foregroundColor:
+                  usado ? Colors.grey.shade600 : Colors.blue.shade700,
+              elevation: usado ? 0 : 2,
+              shape: const CircleBorder(),
             ),
-            child: Text(
-              visivel ? ch : '',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            onPressed: usado || _gameOver ? null : () => _escolherLetra(letra),
+            child: FittedBox(
+              child: Text(
+                letra,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
             ),
           ),
         );
-      }
-    }
-
-    return Wrap(alignment: WrapAlignment.center, children: letras);
-  }
-
-  Widget _buildTeclado() {
-    const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    return GridView.count(
-      shrinkWrap: true,
-      crossAxisCount: 7,
-      physics: NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      children:
-          letras.split('').map((l) {
-            final usado = _letrasEscolhidas.contains(l);
-            return Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 6),
-                  backgroundColor: usado ? Colors.grey.shade400 : null,
-                ),
-                onPressed: usado || _gameOver ? null : () => _escolherLetra(l),
-                child: Text(
-                  l,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-            );
-          }).toList(),
+      }).toList(),
     );
   }
 
-  Widget _buildPainelInfo() {
-    return Column(
-      children: [
-        Text('Erros: $_erros / $_maxErros', style: TextStyle(fontSize: 16)),
-        SizedBox(height: 6),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton.icon(
-              onPressed: _novaPartida,
-              icon: Icon(Icons.refresh),
-              label: Text('Nova Partida'),
-            ),
-            SizedBox(width: 12),
-            ElevatedButton.icon(
-              onPressed: () {
-                setState(() {
-                  // revelar a palavra e encerrar
-                  _letrasEscolhidas.addAll(_palavra.split(''));
-                  _gameOver = true;
-                  _vitoria = false;
-                });
-              },
-              icon: Icon(Icons.remove_red_eye),
-              label: Text('Revelar'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildResultado() {
-    if (!_gameOver) return SizedBox.shrink();
-
-    final texto = _vitoria ? 'Você ganhou! 🎉' : 'Você perdeu 😞';
-    final sub =
-        _vitoria ? 'Parabéns! Palavra: ' + _palavra : 'Palavra: ' + _palavra;
-
-    return Column(
-      children: [
-        SizedBox(height: 12),
-        Text(
-          texto,
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 6),
-        Text(sub, style: TextStyle(fontSize: 18)),
-      ],
-    );
-  }
-
+  // =============================
+  // TELA PRINCIPAL
+  // =============================
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Jogo da Forca')),
-      body: SafeArea(
+      backgroundColor: Colors.grey.shade100,
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // área do boneco
-              Expanded(
-                flex: 5,
-                child: Center(
-                  child: AspectRatio(
-                    aspectRatio: 1.2,
-                    child: CustomPaint(
-                      painter: ForcaPainter(erros: _erros),
-                      child: Container(),
-                    ),
+              const Text(
+                "Jogo da Forca",
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+              Center(child: _desenhoForca()),
+
+              const SizedBox(height: 20),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: _palavraOculta
+                      .map((e) => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              e,
+                              style: const TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 4,
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+              Center(
+                child: Text(
+                  "Erros: $_erros / $_maxErros",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.grey.shade800,
                   ),
                 ),
               ),
 
-              // palavra
-              SizedBox(height: 8),
-              _buildPalavra(),
+              const SizedBox(height: 20),
 
-              // resultado e botões
-              _buildResultado(),
-              SizedBox(height: 8),
-              _buildPainelInfo(),
+              // Mensagem de vitória / derrota
+              if (_gameOver)
+                Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        _erros >= _maxErros
+                            ? "Você perdeu! 😢"
+                            : "Você ganhou! 🎉",
+                        style: const TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Palavra: $_palavra",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
 
-              // teclado
-              SizedBox(height: 8),
-              Expanded(
-                flex: 5,
-                child: SingleChildScrollView(child: _buildTeclado()),
+              // Botões de ação
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: _novaPartida,
+                    icon: const Icon(Icons.refresh),
+                    label: const Text("Nova Partida"),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 22, vertical: 14),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        _palavraOculta =
+                            _palavra.split("").map((e) => e).toList();
+                        _gameOver = true;
+                      });
+                    },
+                    icon: const Icon(Icons.visibility),
+                    label: const Text("Revelar"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 22, vertical: 14),
+                    ),
+                  ),
+                ],
               ),
+
+              const SizedBox(height: 30),
+              _buildTeclado(),
             ],
           ),
         ),
@@ -232,96 +243,35 @@ class _ForcaHomeState extends State<ForcaHome> {
   }
 }
 
+// =================================
+// DESENHADOR DA FORCA
+// =================================
 class ForcaPainter extends CustomPainter {
   final int erros;
-  ForcaPainter({required this.erros});
+  ForcaPainter(this.erros);
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint =
-        Paint()
-          ..color = Colors.black
-          ..strokeWidth = 6.0
-          ..style = PaintingStyle.stroke
-          ..strokeCap = StrokeCap.round;
+    final paint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 6
+      ..style = PaintingStyle.stroke;
 
-    final w = size.width;
-    final h = size.height;
+    // Estrutura fixa
+    canvas.drawLine(Offset(size.width * 0.1, size.height), Offset(size.width * 0.9, size.height), paint);
+    canvas.drawLine(Offset(size.width * 0.2, size.height), Offset(size.width * 0.2, 20), paint);
+    canvas.drawLine(Offset(size.width * 0.2, 20), Offset(size.width * 0.6, 20), paint);
+    canvas.drawLine(Offset(size.width * 0.6, 20), Offset(size.width * 0.6, 60), paint);
 
-    // Desenhar estrutura da forca (sempre visível)
-    // base
-    canvas.drawLine(
-      Offset(w * 0.05, h * 0.95),
-      Offset(w * 0.6, h * 0.95),
-      paint,
-    );
-    // poste vertical
-    canvas.drawLine(
-      Offset(w * 0.15, h * 0.95),
-      Offset(w * 0.15, h * 0.1),
-      paint,
-    );
-    // haste horizontal
-    canvas.drawLine(Offset(w * 0.15, h * 0.1), Offset(w * 0.5, h * 0.1), paint);
-    // corda
-    canvas.drawLine(Offset(w * 0.5, h * 0.1), Offset(w * 0.5, h * 0.22), paint);
-
-    // Partes do boneco, desenhadas conforme erros
-    // 1 - cabeça
-    if (erros > 0) {
-      canvas.drawCircle(Offset(w * 0.5, h * 0.33), h * 0.08, paint);
-    }
-
-    // 2 - tronco
-    if (erros > 1) {
-      canvas.drawLine(
-        Offset(w * 0.5, h * 0.41),
-        Offset(w * 0.5, h * 0.62),
-        paint,
-      );
-    }
-
-    // 3 - braço esquerdo
-    if (erros > 2) {
-      canvas.drawLine(
-        Offset(w * 0.5, h * 0.46),
-        Offset(w * 0.38, h * 0.55),
-        paint,
-      );
-    }
-
-    // 4 - braço direito
-    if (erros > 3) {
-      canvas.drawLine(
-        Offset(w * 0.5, h * 0.46),
-        Offset(w * 0.62, h * 0.55),
-        paint,
-      );
-    }
-
-    // 5 - perna esquerda
-    if (erros > 4) {
-      canvas.drawLine(
-        Offset(w * 0.5, h * 0.62),
-        Offset(w * 0.4, h * 0.78),
-        paint,
-      );
-    }
-
-    // 6 - perna direita
-    if (erros > 5) {
-      canvas.drawLine(
-        Offset(w * 0.5, h * 0.62),
-        Offset(w * 0.6, h * 0.78),
-        paint,
-      );
-    }
-
-    // se quiser adicionar mais detalhes (olhos X, boca), pode usar erros > 6 etc.
+    // Desenho conforme erros
+    if (erros >= 1) canvas.drawCircle(Offset(size.width * 0.6, 90), 30, paint); // cabeça
+    if (erros >= 2) canvas.drawLine(Offset(size.width * 0.6, 120), Offset(size.width * 0.6, 200), paint); // tronco
+    if (erros >= 3) canvas.drawLine(Offset(size.width * 0.6, 130), Offset(size.width * 0.5, 170), paint); // braço esq
+    if (erros >= 4) canvas.drawLine(Offset(size.width * 0.6, 130), Offset(size.width * 0.7, 170), paint); // braço dir
+    if (erros >= 5) canvas.drawLine(Offset(size.width * 0.6, 200), Offset(size.width * 0.5, 250), paint); // perna esq
+    if (erros >= 6) canvas.drawLine(Offset(size.width * 0.6, 200), Offset(size.width * 0.7, 250), paint); // perna dir
   }
 
   @override
-  bool shouldRepaint(covariant ForcaPainter oldDelegate) {
-    return oldDelegate.erros != erros;
-  }
+  bool shouldRepaint(covariant ForcaPainter oldDelegate) => oldDelegate.erros != erros;
 }
