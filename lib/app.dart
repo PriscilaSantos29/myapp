@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'presentation/pages/text/exercicios2/home_page2.dart';
+import 'presentation/pages/jogo_forca/home_page1.dart';
 
 
 class MyApp extends StatelessWidget {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home:  ImcCalculatorPage(),
+      home:  ForcaHome(),
     );
   }
 }
